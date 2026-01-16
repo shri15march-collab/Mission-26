@@ -1,15 +1,24 @@
-name: Build Mission 26
-on: [push, workflow_dispatch]
+name: Build APK
+
+on:
+  push:
+    branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
 
-      - name: Build APK with Buildozer
-        uses: kivy/buildozer-action@latest
-        with:
-          buildozer_version: master
-          python_version: 3.8
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Build APK with Buildozer
+      uses: digreatbrian/buildozer-action@master
+      with:
+        command: buildozer android debug
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: apk
+        path: bin/*.apk
