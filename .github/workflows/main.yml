@@ -1,12 +1,13 @@
-name: Build APK
-on: push
+name: Build Mission 26
+on: [push, workflow_dispatch]
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Build
-        uses: ArtemSerebrennkov/buildozer-action@v1
+
+      - name: Build with Buildozer
+        uses: kivy/buildozer-action@master
         with:
-          buildozer_version: master
-          python_version: 3.8
+          save_build_directory: true
