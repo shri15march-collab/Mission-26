@@ -5,5 +5,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Build with Buildozer
+      - name: Build
         uses: ArtemSerebrennkov/buildozer-action@v1
+        with:
+          buildozer_version: master
+          python_version: 3.8
