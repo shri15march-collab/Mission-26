@@ -1,13 +1,11 @@
-name: Build Mission 26
-on: [push, workflow_dispatch]
-
+name: Build APK
+on: push
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
-      - name: Build APK
+      - name: Build
         uses: ArtemSerebrennkov/buildozer-action@v1
         with:
           buildozer_version: master
