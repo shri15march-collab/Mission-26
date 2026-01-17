@@ -17,10 +17,9 @@ jobs:
         sudo apt update
         sudo apt install -y openjdk-17-jdk wget unzip
 
-        # Force Java 17 as default
+        # Force Java 17
         sudo update-alternatives --set java /usr/lib/jvm/java-17-openjdk-amd64/bin/java
         sudo update-alternatives --set javac /usr/lib/jvm/java-17-openjdk-amd64/bin/javac
-
         export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
         echo "JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> $GITHUB_ENV
         echo "/usr/lib/jvm/java-17-openjdk-amd64/bin" >> $GITHUB_PATH
@@ -43,9 +42,11 @@ jobs:
 
     - name: Install required Android packages
       run: |
-        sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.2"
+        sdkmanager "platform-tools" "platforms;android-33" "build-tools;36.0.0"
 
     - name: Build APK with Buildozer
+      env:
+        ANDROID_SDK_ACCEPT_LICENSES: "yes"
       uses: digreatbrian/buildozer-action@v1
       with:
         buildozer-cmd: buildozer android debug
