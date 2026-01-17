@@ -14,7 +14,7 @@ jobs:
 
       - name: Build APK using official Buildozer Docker
         run: |
-          docker run --rm -i \
+          docker run --rm \
             -e BUILDOZER_ALLOW_ROOT=1 \
             -e BUILDOZER_NO_INTERACTIVE=1 \
             -v ${{ github.workspace }}:/home/user/app \
