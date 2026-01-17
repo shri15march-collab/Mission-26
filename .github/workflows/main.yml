@@ -15,20 +15,24 @@ jobs:
     - name: Set up Java 17
       uses: actions/setup-java@v4
       with:
-        distribution: 'temurin'
-        java-version: '17'
+        distribution: temurin
+        java-version: 17
 
     - name: Set up Android SDK
       uses: android-actions/setup-android@v3
 
-    - name: Install Android build tools
+    - name: Install Android Build Tools
       run: |
         yes | sdkmanager "platform-tools" "platforms;android-33" "build-tools;36.1.0"
 
+    - name: Force Buildozer to use existing SDK
+      run: |
+        echo "ANDROID_HOME=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
+        echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
+        echo "P4A_DOWNLOAD_ANDROID_SDK=0" >> $GITHUB_ENV
+        echo "ANDROID_SDK_ACCEPT_LICENSES=yes" >> $GITHUB_ENV
+
     - name: Build APK with Buildozer
-      env:
-        ANDROID_SDK_ACCEPT_LICENSES: "yes"
-        P4A_DOWNLOAD_ANDROID_SDK: "0"
       uses: digreatbrian/buildozer-action@v1
       with:
         buildozer-cmd: buildozer android debug
