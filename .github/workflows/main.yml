@@ -12,20 +12,19 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Install Java 17 and Android SDK tools
+    - name: Install Java 17 and Android SDK
       run: |
         sudo apt update
         sudo apt install -y openjdk-17-jdk wget unzip
 
-        # Force Java 17 everywhere
+        # Force Java 17
         sudo update-alternatives --set java /usr/lib/jvm/java-17-openjdk-amd64/bin/java
         sudo update-alternatives --set javac /usr/lib/jvm/java-17-openjdk-amd64/bin/javac
-        export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
         echo "JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> $GITHUB_ENV
         echo "/usr/lib/jvm/java-17-openjdk-amd64/bin" >> $GITHUB_PATH
         java -version
 
-        # Install Android command line tools
+        # Install Android SDK tools
         mkdir -p $HOME/android-sdk/cmdline-tools
         cd $HOME/android-sdk/cmdline-tools
         wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -O tools.zip
@@ -33,6 +32,7 @@ jobs:
         mv cmdline-tools latest
 
         echo "ANDROID_HOME=$HOME/android-sdk" >> $GITHUB_ENV
+        echo "ANDROID_SDK_ROOT=$HOME/android-sdk" >> $GITHUB_ENV
         echo "$HOME/android-sdk/cmdline-tools/latest/bin" >> $GITHUB_PATH
         echo "$HOME/android-sdk/platform-tools" >> $GITHUB_PATH
 
@@ -46,6 +46,8 @@ jobs:
 
     - name: Build APK with Buildozer
       env:
+        ANDROID_HOME: ${{ env.ANDROID_HOME }}
+        ANDROID_SDK_ROOT: ${{ env.ANDROID_SDK_ROOT }}
         ANDROID_SDK_ACCEPT_LICENSES: "yes"
       uses: digreatbrian/buildozer-action@v1
       with:
