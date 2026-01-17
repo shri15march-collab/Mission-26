@@ -24,7 +24,7 @@ jobs:
         echo "/usr/lib/jvm/java-17-openjdk-amd64/bin" >> $GITHUB_PATH
         java -version
 
-        # Install Android SDK tools
+        # Install Android SDK
         mkdir -p $HOME/android-sdk/cmdline-tools
         cd $HOME/android-sdk/cmdline-tools
         wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -O tools.zip
@@ -48,6 +48,8 @@ jobs:
       env:
         ANDROID_HOME: ${{ env.ANDROID_HOME }}
         ANDROID_SDK_ROOT: ${{ env.ANDROID_SDK_ROOT }}
+        BUILDOZER_ANDROID_SDK_PATH: ${{ env.ANDROID_HOME }}
+        P4A_DOWNLOAD_ANDROID_SDK: "0"
         ANDROID_SDK_ACCEPT_LICENSES: "yes"
       uses: digreatbrian/buildozer-action@v1
       with:
